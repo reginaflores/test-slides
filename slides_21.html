@@ -1,0 +1,2485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Essentials — Workshop 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f7f4ef;
+    --cream: #ede8e0;
+    --accent: #1e56c8;
+    --accent2: #2a6b8a;
+    --accent3: #5a8a3a;
+    --gold: #b8943a;
+    --muted: #8a8278;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Outfit', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(247,244,239,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(15,14,12,0.1);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 48px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    overflow-x: auto;
+  }
+
+  nav span {
+    color: var(--accent);
+    margin-right: 1.5rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-right: 1.5rem;
+    padding: 2px 0;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--ink); }
+
+  /* SLIDE COUNTER */
+  .counter {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    z-index: 100;
+  }
+
+  /* SECTIONS */
+  section {
+    min-height: 100vh;
+    padding: 8rem 2rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  section.full-width {
+    max-width: none;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  section.dark {
+    background: var(--ink);
+    color: var(--paper);
+    max-width: none;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  section.dark .eyebrow { color: var(--accent); }
+  section.dark .muted { color: rgba(247,244,239,0.5); }
+  section.dark p { color: rgba(247,244,239,0.8); }
+
+  section.accent-bg {
+    background: var(--accent);
+    color: var(--paper);
+    max-width: none;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  section.cream-bg {
+    background: var(--cream);
+    max-width: none;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  section.accent2-bg {
+    background: var(--accent2);
+    color: var(--paper);
+    max-width: none;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  /* TYPOGRAPHY */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+
+  h3 em { font-style: italic; color: var(--accent); }
+
+  p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(15,14,12,0.75);
+    max-width: 640px;
+  }
+
+  p strong { font-weight: 500; color: var(--ink); }
+
+  .lead {
+    font-size: 1.25rem;
+    line-height: 1.65;
+    max-width: 700px;
+  }
+
+  .muted {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* DIVIDER */
+  .rule {
+    width: 3rem;
+    height: 1px;
+    background: var(--accent);
+    margin: 1.5rem 0;
+  }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 6rem 4rem;
+    gap: 4rem;
+    max-width: none;
+    background: var(--paper);
+  }
+
+  .hero-left { }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(15,14,12,0.15);
+    padding: 0.35rem 0.75rem;
+    border-radius: 2rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+    color: var(--muted);
+  }
+
+  .hero-badge::before {
+    content: '';
+    display: block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-self: end;
+    padding-bottom: 2rem;
+  }
+
+  .hero-right .mono-block {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    line-height: 2;
+    color: var(--muted);
+    border-left: 2px solid var(--cream);
+    padding-left: 1rem;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 4rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--muted);
+  }
+
+  /* NUMBERED STEPS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .step {
+    border-top: 1px solid rgba(15,14,12,0.12);
+    padding-top: 1.25rem;
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .step h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .step p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  /* CARDS */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid rgba(15,14,12,0.1);
+    padding: 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    font-family: var(--sans);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .card p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    max-width: none;
+  }
+
+  .card .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 1rem;
+  }
+
+  .card .tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    background: var(--cream);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2rem;
+    color: var(--muted);
+  }
+
+  /* PULLQUOTE */
+  .pullquote {
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem 2rem;
+    margin: 3rem 0;
+    background: var(--cream);
+  }
+
+  .pullquote p {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink);
+    max-width: 700px;
+  }
+
+  .pullquote cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  /* TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+  }
+
+  .compare-table th {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+    color: var(--ink);
+  }
+
+  .compare-table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(15,14,12,0.1);
+    line-height: 1.5;
+    vertical-align: top;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  .compare-table .label {
+    font-weight: 500;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  /* AGENT DIAGRAM */
+  .agent-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+  }
+
+  .agent-node {
+    flex: 1;
+    min-width: 140px;
+    background: rgba(247,244,239,0.08);
+    border: 1px solid rgba(247,244,239,0.2);
+    padding: 1.25rem 1rem;
+    text-align: center;
+  }
+
+  .agent-node .n-icon { font-size: 1.75rem; margin-bottom: 0.5rem; display: block; }
+  .agent-node .n-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(247,244,239,0.5);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .agent-node .n-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--paper);
+  }
+
+  .agent-arrow {
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    color: var(--accent);
+    padding: 0 0.25rem;
+  }
+
+  /* AGENT EXAMPLES */
+  .agent-examples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: rgba(247,244,239,0.1);
+    margin-top: 2rem;
+    border: 1px solid rgba(247,244,239,0.1);
+  }
+
+  .agent-ex {
+    background: rgba(15,14,12,0.4);
+    padding: 1.5rem;
+  }
+
+  .agent-ex .ex-icon { font-size: 1.5rem; display: block; margin-bottom: 0.75rem; }
+  .agent-ex h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--paper);
+    margin-bottom: 0.4rem;
+  }
+  .agent-ex p {
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: rgba(247,244,239,0.6);
+    max-width: none;
+  }
+
+  .agent-ex .try-now {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.25rem 0.5rem;
+    border-radius: 2rem;
+  }
+
+  /* MODEL CARDS */
+  .model-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .model-card {
+    border: 1px solid rgba(15,14,12,0.1);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .model-card.featured {
+    border-color: var(--accent);
+    background: rgba(30,86,200,0.04);
+  }
+
+  .model-card .m-badge {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .model-card.featured .m-badge { color: var(--accent); }
+
+  .model-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .model-card p { font-size: 0.875rem; max-width: none; }
+
+  .model-card .m-uses {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .m-use {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    background: var(--cream);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2rem;
+    color: var(--muted);
+  }
+
+  /* WORKSHOP STEPS */
+  .workshop-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    margin-top: 3rem;
+    border: 1px solid rgba(247,244,239,0.15);
+  }
+
+  .w-step {
+    padding: 2rem 1.75rem;
+    border-right: 1px solid rgba(247,244,239,0.1);
+    position: relative;
+  }
+
+  .w-step:last-child { border-right: none; }
+
+  .w-step .w-num {
+    font-family: var(--mono);
+    font-size: 2rem;
+    color: var(--accent);
+    font-weight: 300;
+    line-height: 1;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .w-step h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--paper);
+    margin-bottom: 0.5rem;
+    font-family: var(--sans);
+  }
+
+  .w-step .w-time {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: rgba(247,244,239,0.35);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .w-step p {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: rgba(247,244,239,0.55);
+    max-width: none;
+  }
+
+  .w-step .w-prompt {
+    margin-top: 0.75rem;
+    background: rgba(247,244,239,0.06);
+    border-left: 2px solid var(--accent);
+    padding: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    line-height: 1.55;
+    color: rgba(247,244,239,0.7);
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    gap: 4rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .stat .s-num {
+    font-family: var(--serif);
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat .s-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  /* GRID PLATFORM */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1px;
+    background: rgba(15,14,12,0.08);
+    margin-top: 2.5rem;
+  }
+
+  .platform-cell {
+    background: var(--paper);
+    padding: 0.85rem 0.75rem;
+    transition: background 0.2s;
+  }
+
+  .platform-cell:hover { background: var(--cream); }
+
+  .platform-cell .p-icon { font-size: 1rem; display: block; margin-bottom: 0.35rem; }
+  .platform-cell .p-cat {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .platform-cell .p-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+    display: block;
+  }
+  .platform-cell .p-tools {
+    font-size: 0.7rem;
+    color: var(--muted);
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  /* BEFORE/AFTER */
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .ba-col {
+    padding: 2rem;
+    border: 1px solid rgba(15,14,12,0.1);
+  }
+
+  .ba-col.before { border-color: rgba(15,14,12,0.15); }
+  .ba-col.after { border-color: var(--accent); background: rgba(30,86,200,0.04); }
+
+  .ba-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .ba-col.after .ba-label { color: var(--accent); }
+
+  .ba-col p { font-size: 0.9rem; line-height: 1.7; max-width: none; }
+
+  /* CLOSING */
+  .closing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 100vh;
+    max-width: none;
+  }
+
+  .closing-left {
+    background: var(--ink);
+    padding: 8rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .closing-right {
+    background: var(--accent);
+    padding: 8rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .closing-right h2 { color: var(--paper); }
+  .closing-right p { color: rgba(247,244,239,0.8); max-width: 400px; }
+  .closing-right .eyebrow { color: rgba(247,244,239,0.6); }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: var(--cream);
+    border: 1px solid rgba(15,14,12,0.1);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 1.5rem;
+    margin-top: 2rem;
+    max-width: 700px;
+  }
+
+  .insight p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--ink);
+    max-width: none;
+  }
+
+  .insight .i-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; padding: 6rem 2rem 4rem; }
+    .hero-right { display: none; }
+    section.dark, section.cream-bg, section.accent-bg, section.accent2-bg, section.full-width { padding-left: 2rem; padding-right: 2rem; }
+    .model-cards { grid-template-columns: 1fr; }
+    .before-after { grid-template-columns: 1fr; }
+    .closing-grid { grid-template-columns: 1fr; }
+    .workshop-steps { grid-template-columns: 1fr; }
+    .agent-flow { flex-direction: column; }
+    .agent-arrow { transform: rotate(90deg); }
+    section { padding: 7rem 1.5rem 4rem; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
+
+  .fade-in:nth-child(2) { animation-delay: 0.15s; }
+  .fade-in:nth-child(3) { animation-delay: 0.3s; }
+  .fade-in:nth-child(4) { animation-delay: 0.45s; }
+
+  /* SEPARATOR */
+  .section-sep {
+    height: 1px;
+    background: rgba(15,14,12,0.08);
+    margin: 0 4rem;
+  }
+
+  /* TYPE TAG */
+  .type-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .type-predictive { background: rgba(90,138,58,0.12); color: var(--accent3); }
+  .type-generative { background: rgba(42,107,138,0.12); color: var(--accent2); }
+  .type-agentic { background: rgba(30,86,200,0.12); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span>workshop//01</span>
+  <a href="#hero">Intro</a>
+  <a href="#taxonomy">ML Map</a>
+  <a href="#ml">ML Basics</a>
+  <a href="#breakthroughs">Breakthroughs</a>
+  <a href="#model-families">Model Families</a>
+  <a href="#landscape">Landscape</a>
+  <a href="#types">3 Types</a>
+  <a href="#agents">Agents</a>
+  <a href="#llms">LLMs</a>
+  <a href="#local-llm">Local AI</a>
+  <a href="#vertical-llms">Vertical AI</a>
+  <a href="#vibe">Vibe Coding</a>
+  <a href="#ecosystem">Products</a>
+  <a href="#models">Models</a>
+  <a href="#mythos">Mythos</a>
+  <a href="#build">Build</a>
+</nav>
+
+<div class="counter">01 / 20</div>
+
+<!-- HERO -->
+<section id="hero" style="position:relative;">
+  <div class="hero-left">
+    <div class="hero-badge fade-in">AI Essentials · Workshop 01 · 2026</div>
+    <h1 class="fade-in">The World<br>of <em>AI</em></h1>
+    <div class="rule fade-in"></div>
+    <p class="lead fade-in" style="max-width:520px; margin-top:1.5rem;">
+      What it is. Who makes it. How to use it — and how to put it to work for your family, your work, and yourself.
+    </p>
+  </div>
+  <div class="hero-right fade-in">
+    <div class="mono-block">
+      What you'll walk away with<br>
+      ─────────────────────────<br>
+      ✓ Mental model for AI<br>
+      ✓ Know your tools<br>
+      ✓ Understand agents &amp; bots<br>
+      ✓ A real app you built<br>
+    </div>
+    <div class="mono-block" style="margin-top:0.5rem;">
+      Format: ~1 hour<br>
+      Level: No code required<br>
+      Instructor: Regina Flores Mir<br>
+      ── reginaflores.ai ──
+    </div>
+  </div>
+  <div class="scroll-hint">scroll to explore</div>
+</section>
+
+<!-- ML TAXONOMY -->
+<section id="taxonomy">
+  <div class="eyebrow">The Map</div>
+  <h2>AI is<br><em>not new</em></h2>
+  <div class="rule"></div>
+  <p>AI is the big umbrella. Machine Learning is how we build AI today. Inside ML are three learning approaches — and inside one of them (supervised learning) lives the neural network stack that eventually gave us Claude.</p>
+
+  <div style="width:100%; background:#f7f4ef; border:1px solid rgba(15,14,12,0.08); padding:1rem; margin-top:2.5rem;">
+    <svg width="100%" viewBox="0 0 680 680" role="img" style="font-family:'Outfit',sans-serif;">
+      <title>Full ML taxonomy diagram</title>
+      <desc>Containment diagram: AI contains ML, which branches into Supervised, Unsupervised, and Reinforcement Learning. Supervised contains Neural Networks, which contains Deep Learning, which contains LLMs.</desc>
+
+      <!-- AI -->
+      <rect x="16" y="20" width="430" height="640" rx="20" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.5"/>
+      <text x="32" y="48" font-size="13" font-weight="500" fill="#26215C">Artificial Intelligence</text>
+      <text x="32" y="63" font-size="11" fill="#534AB7">Anything that mimics human reasoning</text>
+
+      <!-- ML -->
+      <rect x="38" y="78" width="386" height="552" rx="16" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.5"/>
+      <text x="54" y="104" font-size="13" font-weight="500" fill="#042C53">Machine Learning</text>
+      <text x="54" y="119" font-size="11" fill="#185FA5">Systems that learn from data, not rules</text>
+
+      <!-- Supervised -->
+      <rect x="56" y="132" width="172" height="468" rx="12" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+      <text x="142" y="158" font-size="12" font-weight="500" fill="#04342C" text-anchor="middle">Supervised</text>
+      <text x="142" y="173" font-size="10" fill="#0F6E56" text-anchor="middle">Labeled examples</text>
+      <text x="142" y="200" font-size="10" fill="#0F6E56" text-anchor="middle">Spam · Fraud · Image rec</text>
+
+      <!-- Neural Networks -->
+      <rect x="70" y="214" width="144" height="352" rx="10" fill="#FAEEDA" stroke="#EF9F27" stroke-width="0.5"/>
+      <text x="142" y="236" font-size="11" font-weight="500" fill="#412402" text-anchor="middle">Neural Networks</text>
+      <text x="142" y="250" font-size="10" fill="#854F0B" text-anchor="middle">Brain-inspired layers</text>
+
+      <!-- Deep Learning -->
+      <rect x="84" y="268" width="116" height="272" rx="8" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+      <text x="142" y="288" font-size="11" font-weight="500" fill="#412402" text-anchor="middle">Deep Learning</text>
+      <text x="142" y="302" font-size="10" fill="#633806" text-anchor="middle">Many layers · Vision</text>
+
+      <!-- LLMs -->
+      <rect x="90" y="318" width="104" height="196" rx="6" fill="#D85A30" stroke="#993C1D" stroke-width="0.5"/>
+      <text x="142" y="340" font-size="10" font-weight="500" fill="#fff" text-anchor="middle">LLMs</text>
+      <text x="142" y="356" font-size="9" fill="#FAECE7" text-anchor="middle">Transformers at scale</text>
+      <text x="142" y="371" font-size="9" fill="#FAECE7" text-anchor="middle">Claude · GPT · Gemini</text>
+      <text x="142" y="388" font-size="9" fill="#fff" text-anchor="middle" font-weight="500">← we are here</text>
+      <text x="142" y="404" font-size="9" fill="#FAECE7" text-anchor="middle">Agents · Cowork</text>
+      <text x="142" y="492" font-size="9" fill="#FAECE7" text-anchor="middle">Mythos ↗</text>
+
+      <!-- Unsupervised -->
+      <rect x="238" y="132" width="96" height="468" rx="12" fill="#EAF3DE" stroke="#97C459" stroke-width="0.5"/>
+      <text x="286" y="155" font-size="11" font-weight="500" fill="#173404" text-anchor="middle">Unsupervised</text>
+      <text x="286" y="172" font-size="10" fill="#3B6D11" text-anchor="middle">No labels —</text>
+      <text x="286" y="186" font-size="10" fill="#3B6D11" text-anchor="middle">finds hidden</text>
+      <text x="286" y="200" font-size="10" fill="#3B6D11" text-anchor="middle">patterns</text>
+      <text x="286" y="228" font-size="10" fill="#3B6D11" text-anchor="middle">Spotify moods</text>
+      <text x="286" y="244" font-size="10" fill="#3B6D11" text-anchor="middle">Amazon recs</text>
+      <text x="286" y="260" font-size="10" fill="#3B6D11" text-anchor="middle">Cancer subtypes</text>
+      <text x="286" y="276" font-size="10" fill="#3B6D11" text-anchor="middle">Fraud patterns</text>
+
+      <!-- Reinforcement -->
+      <rect x="344" y="132" width="66" height="468" rx="12" fill="#FBEAF0" stroke="#ED93B1" stroke-width="0.5"/>
+      <text x="377" y="156" font-size="10" font-weight="500" fill="#4B1528" text-anchor="middle">Reinforce-</text>
+      <text x="377" y="169" font-size="10" font-weight="500" fill="#4B1528" text-anchor="middle">ment</text>
+      <text x="377" y="182" font-size="10" font-weight="500" fill="#4B1528" text-anchor="middle">Learning</text>
+      <text x="377" y="200" font-size="10" fill="#993556" text-anchor="middle">Trial +</text>
+      <text x="377" y="214" font-size="10" fill="#993556" text-anchor="middle">reward</text>
+      <text x="377" y="234" font-size="10" fill="#993556" text-anchor="middle">AlphaGo</text>
+      <text x="377" y="248" font-size="10" fill="#993556" text-anchor="middle">Robotics</text>
+      <text x="377" y="262" font-size="10" fill="#993556" text-anchor="middle">Games</text>
+      <text x="377" y="278" font-size="10" fill="#993556" text-anchor="middle">RLHF →</text>
+      <text x="377" y="292" font-size="10" fill="#993556" text-anchor="middle">aligns Claude</text>
+
+      <!-- Timeline line -->
+      <line x1="498" y1="30" x2="498" y2="650" stroke="#c8c4bc" stroke-width="0.5"/>
+
+      <circle cx="498" cy="55" r="4" fill="#AFA9EC" stroke="#534AB7" stroke-width="0.5"/>
+      <text x="510" y="51" font-size="11" font-weight="500" fill="#0f0e0c">1950s</text>
+      <text x="510" y="65" font-size="10" fill="#5f5e5a">Turing · AI coined as a field</text>
+
+      <circle cx="498" cy="150" r="4" fill="#85B7EB" stroke="#185FA5" stroke-width="0.5"/>
+      <text x="510" y="146" font-size="11" font-weight="500" fill="#0f0e0c">1980s</text>
+      <text x="510" y="160" font-size="10" fill="#5f5e5a">Backprop · Neural nets trainable</text>
+
+      <circle cx="498" cy="270" r="4" fill="#5DCAA5" stroke="#0F6E56" stroke-width="0.5"/>
+      <text x="510" y="266" font-size="11" font-weight="500" fill="#0f0e0c">2012</text>
+      <text x="510" y="280" font-size="10" fill="#5f5e5a">AlexNet · Deep learning era</text>
+
+      <circle cx="498" cy="390" r="4" fill="#EF9F27" stroke="#BA7517" stroke-width="0.5"/>
+      <text x="510" y="386" font-size="11" font-weight="500" fill="#0f0e0c">2017</text>
+      <text x="510" y="400" font-size="10" fill="#5f5e5a">Transformer architecture born</text>
+
+      <circle cx="498" cy="500" r="4" fill="#D85A30" stroke="#993C1D" stroke-width="0.5"/>
+      <text x="510" y="496" font-size="11" font-weight="500" fill="#0f0e0c">2022</text>
+      <text x="510" y="510" font-size="10" fill="#5f5e5a">ChatGPT · Claude · mainstream</text>
+
+      <circle cx="498" cy="610" r="5" fill="#D85A30" stroke="#993C1D" stroke-width="1"/>
+      <text x="510" y="606" font-size="11" font-weight="500" fill="#0f0e0c">2026 ← now</text>
+      <text x="510" y="620" font-size="10" fill="#5f5e5a">Agents · Cowork · Mythos</text>
+      <text x="510" y="634" font-size="10" fill="#5f5e5a">AI does tasks, not just answers</text>
+    </svg>
+  </div>
+
+  <div style="margin-top:2rem; background:var(--cream); border:1px solid rgba(15,14,12,0.08); padding:1.5rem 2rem; display:grid; grid-template-columns:1fr 1fr 1fr; gap:2rem;">
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Supervised Learning</div>
+      <p style="font-size:0.85rem; line-height:1.6; max-width:none;">Learns from labeled examples. You show it thousands of emails tagged "spam" or "not spam" and it learns the pattern. Most practical AI is this.</p>
+      <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.62rem; color:var(--muted); line-height:1.8;">
+        📧 Spam filter<br>
+        🏦 Fraud detection<br>
+        🖼 Image recognition<br>
+        🌐 Translation
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Unsupervised Learning</div>
+      <p style="font-size:0.85rem; line-height:1.6; max-width:none;">No labels — the model finds hidden patterns on its own. You don't tell it what to look for. It discovers structure in the data you didn't know was there.</p>
+      <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.62rem; color:var(--muted); line-height:1.8;">
+        🎵 Spotify grouping songs by mood<br>
+        🛍 Amazon "customers like you"<br>
+        🧬 Finding cancer subtypes in patient data<br>
+        💳 Flagging unusual spending patterns
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Reinforcement Learning</div>
+      <p style="font-size:0.85rem; line-height:1.6; max-width:none;">Learns by trial and error, earning rewards for good decisions and penalties for bad ones. No labeled data — just feedback from the environment.</p>
+      <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.62rem; color:var(--muted); line-height:1.8;">
+        ♟ AlphaGo beating world chess champion<br>
+        🤖 Teaching robots to walk<br>
+        🎮 AI mastering video games<br>
+        ✦ RLHF — makes Claude safe + helpful
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;">
+    <a href="https://reginaflores.github.io/AI_Workshop_Buckley/ai-timeline.html" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; font-family:var(--mono); font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:0.5rem 1rem; text-decoration:none; transition:background 0.2s, color 0.2s;" onmouseover="this.style.background='var(--accent)';this.style.color='var(--paper)'" onmouseout="this.style.background='transparent';this.style.color='var(--accent)'">↗ Detailed AI Timeline</a>
+  </div>
+</section>
+
+<!-- ML FOUNDATION -->
+<section id="ml">
+  <div class="eyebrow">The Foundation</div>
+  <h2>It all starts with<br><em>Machine Learning.</em></h2>
+  <div class="rule"></div>
+  <p class="lead">Classical software is explicit: a programmer writes rules. <strong>ML inverts this.</strong> You define an objective, feed in data, and an algorithm adjusts millions of internal parameters until the model learns to minimize its error. No rules are written. Behavior <em>emerges</em> from optimization.</p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01 — Data</span>
+      <h3>Feed it examples</h3>
+      <p>Billions of text passages, images, code snippets, and conversations become the raw material for learning.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02 — Objective</span>
+      <h3>Define "good"</h3>
+      <p>A loss function measures how wrong the model is. The goal: get that number as low as possible, as reliably as possible.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03 — Optimize</span>
+      <h3>Adjust billions of weights</h3>
+      <p>Gradient descent iteratively tunes parameters. Run this long enough at sufficient scale and complex capabilities emerge.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">04 — Align</span>
+      <h3>Shape the personality</h3>
+      <p>RLHF — Reinforcement Learning from Human Feedback — turns a raw predictor into something helpful, safe, and pleasant to talk to.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TWO BREAKTHROUGHS -->
+<section id="breakthroughs">
+  <div class="eyebrow">The Two Breakthroughs</div>
+  <h2>ML existed for decades.<br><em>These two things changed everything.</em></h2>
+  <div class="rule"></div>
+  <p class="lead">Modern AI didn't come from one invention. It came from two distinct advances — one in architecture, one in alignment — that together turned raw prediction into something that feels like intelligence.</p>
+
+  <div class="steps" style="margin-top:3rem;">
+    <div class="step">
+      <span class="step-num">2017 — Google</span>
+      <h3>Transformer Architecture</h3>
+      <p>Before the Transformer, AI read text sequentially — word by word, left to right. The breakthrough was <strong>attention</strong>: letting the model look at all words simultaneously and learn which ones matter most to each other.</p>
+      <p style="margin-top:0.75rem;">In the sentence <em>"The animal didn't cross the street because it was too tired"</em> — attention is what tells the model that "it" refers to "animal," not "street." That ability to track relationships across context is what makes LLMs feel like they understand.</p>
+      <p style="margin-top:0.75rem; font-family:var(--mono); font-size:0.62rem; color:var(--muted);">Vaswani et al., "Attention Is All You Need," 2017</p>
+    </div>
+    <div class="step">
+      <span class="step-num">2022 — OpenAI</span>
+      <h3>RLHF</h3>
+      <p>A trained model is technically just a very good text predictor. It doesn't yet know how to be <em>helpful</em> or <em>safe</em>. <strong>Reinforcement Learning from Human Feedback</strong> is the fine-tuning step that shapes it into an assistant.</p>
+      <p style="margin-top:0.75rem;">Human raters compare pairs of model responses and pick the better one. Those preferences become a reward signal, and the model learns to produce outputs humans rate highly. This is what turns a raw predictor into something that follows instructions, avoids harm, and feels like it has a personality.</p>
+      <p style="margin-top:0.75rem; font-family:var(--mono); font-size:0.62rem; color:var(--muted);">Why Claude feels different from GPT — same architecture, different RLHF.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MODEL FAMILIES -->
+<section id="model-families">
+  <div class="eyebrow">One Method, Many Architectures</div>
+  <h2>ML is the umbrella.<br><em>The models beneath it vary wildly.</em></h2>
+  <div class="rule"></div>
+  <p class="lead">The same optimization principle underlies completely different model families — each with a different architecture, training signal, and class of problems it solves well.</p>
+  <p style="margin-top:1rem;">Most AI tools you use today combine more than one. ChatGPT and Claude are LLMs fine-tuned with RL. DALL·E is a diffusion model guided by a text encoder. Sora combines both.</p>
+
+  <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:1.5rem; margin-top:3rem;">
+    <div class="card">
+      <span class="card-icon">💬</span>
+      <h3>Large Language Models</h3>
+      <p>Transformer-based. Trained to predict the next token across text, code, and data.</p>
+      <div class="tags">
+        <span class="tag">Claude</span>
+        <span class="tag">GPT-5</span>
+        <span class="tag">Gemini</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎨</span>
+      <h3>Diffusion Models</h3>
+      <p>Trained to reverse a noise process. Start with static, iteratively denoise into an image or video.</p>
+      <div class="tags">
+        <span class="tag">Midjourney</span>
+        <span class="tag">Stable Diffusion</span>
+        <span class="tag">Sora</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏆</span>
+      <h3>Reinforcement Learning</h3>
+      <p>Trained via reward signals from an environment. The model discovers strategies by trial and error.</p>
+      <div class="tags">
+        <span class="tag">AlphaGo</span>
+        <span class="tag">Robotics</span>
+        <span class="tag">RLHF fine-tuning</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon">👁</span>
+      <h3>Vision Models</h3>
+      <p>Trained on images for classification, detection, and segmentation. Vision Transformers now lead on benchmarks.</p>
+      <div class="tags">
+        <span class="tag">Face ID</span>
+        <span class="tag">Medical imaging</span>
+        <span class="tag">Self-driving</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌐</span>
+      <h3>Multimodal Models</h3>
+      <p>Combine architectures to handle text, images, audio, and video together. The current frontier.</p>
+      <div class="tags">
+        <span class="tag">GPT-5</span>
+        <span class="tag">Gemini 3.1</span>
+        <span class="tag">Claude Opus 4.6</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight" style="margin-top:2.5rem;">
+    <span class="i-label">Why this matters</span>
+    <p>When someone says "AI did this" — a song, an image, a diagnosis, a recommendation — a different model family is behind each one. They share the same mathematical foundation but are built for completely different problems.</p>
+  </div>
+</section>
+
+<!-- LANDSCAPE -->
+<section id="landscape" class="cream-bg">
+  <div class="eyebrow">The Landscape</div>
+  <h2>AI isn't a chatbot —<br>it's <em>everything</em></h2>
+  <div class="rule"></div>
+  <p>The tools you consciously choose are just the tip of the iceberg. AI has been quietly running your daily life for years — you just didn't call it that.</p>
+
+  <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:1px; background:rgba(15,14,12,0.08); margin-top:2.5rem;">
+    <div class="platform-cell">
+      <span class="p-icon">💬</span>
+      <span class="p-cat">Text & Chat</span>
+      <span class="p-name">Claude · ChatGPT</span>
+      <span class="p-tools">Gemini · Perplexity</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">🎨</span>
+      <span class="p-cat">Image Gen</span>
+      <span class="p-name">Midjourney · DALL·E</span>
+      <span class="p-tools">Firefly · Ideogram</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">🎬</span>
+      <span class="p-cat">Video</span>
+      <span class="p-name">Sora · Runway</span>
+      <span class="p-tools">Pika · Kling</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">🎵</span>
+      <span class="p-cat">Audio & Music</span>
+      <span class="p-name">Suno · ElevenLabs</span>
+      <span class="p-tools">Udio · Mubert</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">💻</span>
+      <span class="p-cat">Coding</span>
+      <span class="p-name">Claude Code · Cursor</span>
+      <span class="p-tools">Copilot · Replit</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">⚡</span>
+      <span class="p-cat">Productivity</span>
+      <span class="p-name">Notion AI · Copilot</span>
+      <span class="p-tools">Otter.ai · Motion</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">🏥</span>
+      <span class="p-cat">Health & Science</span>
+      <span class="p-name">AlphaFold · Tempus</span>
+      <span class="p-tools">reads scans · folds proteins</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">🔍</span>
+      <span class="p-cat">Search</span>
+      <span class="p-name">Perplexity · AI Overview</span>
+      <span class="p-tools">real-time · cited answers</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">⚖️</span>
+      <span class="p-cat">Legal</span>
+      <span class="p-name">Harvey · Casetext</span>
+      <span class="p-tools">contract review · research</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">🏦</span>
+      <span class="p-cat">Finance</span>
+      <span class="p-name">Bloomberg AI · Kensho</span>
+      <span class="p-tools">forecasting · risk</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">🚗</span>
+      <span class="p-cat">Autonomous</span>
+      <span class="p-name">Waymo · Tesla</span>
+      <span class="p-tools">Figure · Boston Dynamics</span>
+    </div>
+    <div class="platform-cell">
+      <span class="p-icon">📱</span>
+      <span class="p-cat">Already on your phone</span>
+      <span class="p-name">Face ID · Autocorrect</span>
+      <span class="p-tools">Photo sort · Siri · Spam</span>
+    </div>
+  </div>
+
+  <div class="insight">
+    <span class="i-label">The bigger picture</span>
+    <p>What's changed isn't that AI arrived. It's that it became <strong>visible, conversational, and creative</strong> — and now anyone can use it, not just engineers.</p>
+  </div>
+</section>
+
+<!-- THREE TYPES -->
+<section id="types">
+  <div class="eyebrow">Three Types of AI</div>
+  <h2>Not all AI thinks<br><em>the same way</em></h2>
+  <div class="rule"></div>
+  <p>Understanding these three modes helps you know what any AI tool can — and can't — do for you.</p>
+
+  <div class="cards" style="margin-top:2.5rem;">
+    <div class="card">
+      <span class="type-tag type-predictive">01 — Predictive</span>
+      <h3>Predicts what comes next</h3>
+      <p>Trained on patterns to forecast an outcome. Doesn't understand — calculates probabilities.</p>
+      <div class="tags">
+        <span class="tag">📧 Gmail spam filter</span>
+        <span class="tag">🎬 Netflix recs</span>
+        <span class="tag">🏦 Fraud detection</span>
+        <span class="tag">⌨️ Autocomplete</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="type-tag type-generative">02 — Generative</span>
+      <h3>Creates brand-new content</h3>
+      <p>Given a prompt, generates something that didn't exist before — text, images, music, video, code.</p>
+      <div class="tags">
+        <span class="tag">💬 Claude · ChatGPT</span>
+        <span class="tag">🎨 Midjourney</span>
+        <span class="tag">🎵 Suno</span>
+        <span class="tag">🎬 Sora</span>
+      </div>
+    </div>
+    <div class="card" style="border-color: rgba(30,86,200,0.3); background: rgba(30,86,200,0.03);">
+      <span class="type-tag type-agentic">03 — Agentic</span>
+      <h3>Takes action on your behalf</h3>
+      <p>Goes beyond answering — it actually <em>does</em> things. Opens apps, browses the web, writes files, sends emails, completes tasks end-to-end.</p>
+      <div class="tags">
+        <span class="tag">💻 Claude Code</span>
+        <span class="tag">📧 AI email handler</span>
+        <span class="tag">🗓 Calendar booker</span>
+        <span class="tag">🛒 Auto-orders</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <span class="i-label">The blurring line</span>
+    <p>Most tools today combine all three. Claude is <em>generative</em> when you chat with it, and <em>agentic</em> when you use Claude Code or give it tools. The lines are disappearing fast — and the agentic layer is where everything is heading.</p>
+  </div>
+</section>
+
+<!-- AGENTS SECTION -->
+<section id="agents" class="dark">
+  <div style="max-width:1100px; margin:0 auto; width:100%;">
+    <div class="eyebrow">New</div>
+    <h2 style="color:var(--paper);">AI <em style="color:var(--accent);">Agents</em> &amp; Bots</h2>
+    <div class="rule"></div>
+    <p class="lead" style="color:rgba(247,244,239,0.8); max-width:680px;">A chatbot answers your question. An agent <strong style="color:var(--paper);">goes and handles it.</strong> This is the most important shift happening in AI right now — and it's already available to you.</p>
+
+    <!-- HOW AN AGENT WORKS -->
+    <div style="margin-top:3rem;">
+      <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:1.25rem;">HOW AN AGENT WORKS</p>
+      <div class="agent-flow">
+        <div class="agent-node">
+          <span class="n-icon">🧑‍💻</span>
+          <span class="n-label">You give it</span>
+          <span class="n-title">A Goal</span>
+        </div>
+        <div class="agent-arrow">→</div>
+        <div class="agent-node">
+          <span class="n-icon">🧠</span>
+          <span class="n-label">It plans</span>
+          <span class="n-title">A Strategy</span>
+        </div>
+        <div class="agent-arrow">→</div>
+        <div class="agent-node">
+          <span class="n-icon">🔧</span>
+          <span class="n-label">It uses</span>
+          <span class="n-title">Tools & APIs</span>
+        </div>
+        <div class="agent-arrow">→</div>
+        <div class="agent-node">
+          <span class="n-icon">✅</span>
+          <span class="n-label">It delivers</span>
+          <span class="n-title">The Result</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHATBOT VS AGENT -->
+    <div style="margin-top:3rem;">
+      <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:1.25rem;">CHATBOT VS. AGENT — THE KEY DIFFERENCE</p>
+      <table class="compare-table" style="color:var(--paper);">
+        <thead>
+          <tr>
+            <th style="color:rgba(247,244,239,0.5);">Dimension</th>
+            <th style="color:rgba(247,244,239,0.5);">Chatbot</th>
+            <th style="color:var(--accent);">Agent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label" style="color:rgba(247,244,239,0.6);">What it does</td>
+            <td style="color:rgba(247,244,239,0.7);">Answers your question</td>
+            <td style="color:var(--paper);">Completes your task</td>
+          </tr>
+          <tr>
+            <td class="label" style="color:rgba(247,244,239,0.6);">Memory</td>
+            <td style="color:rgba(247,244,239,0.7);">This conversation only</td>
+            <td style="color:var(--paper);">Can remember across sessions</td>
+          </tr>
+          <tr>
+            <td class="label" style="color:rgba(247,244,239,0.6);">Tools</td>
+            <td style="color:rgba(247,244,239,0.7);">Text in, text out</td>
+            <td style="color:var(--paper);">Browses web, reads files, sends email</td>
+          </tr>
+          <tr>
+            <td class="label" style="color:rgba(247,244,239,0.6);">Runs for</td>
+            <td style="color:rgba(247,244,239,0.7);">Seconds</td>
+            <td style="color:var(--paper);">Minutes to hours, unattended</td>
+          </tr>
+          <tr>
+            <td class="label" style="color:rgba(247,244,239,0.6);">You do</td>
+            <td style="color:rgba(247,244,239,0.7);">All the follow-up yourself</td>
+            <td style="color:var(--paper);">Review the finished output</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- REAL EXAMPLES -->
+    <div style="margin-top:3rem;">
+      <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:0;">REAL EXAMPLES — FOR YOUR LIFE RIGHT NOW</p>
+      <div class="agent-examples">
+        <div class="agent-ex">
+          <span class="ex-icon">📅</span>
+          <h4>School Scheduler</h4>
+          <p>Tell it: "Parse the Buckley calendar PDF, pull all Grade 2 events, and send me a weekly digest every Sunday night."</p>
+          <span class="try-now">Try with Claude Code</span>
+        </div>
+        <div class="agent-ex">
+          <span class="ex-icon">📧</span>
+          <h4>Email Triage Bot</h4>
+          <p>Reads your inbox, flags what needs a reply today, drafts responses for your review. You approve, it sends.</p>
+          <span class="try-now">Try with Claude + Gmail</span>
+        </div>
+        <div class="agent-ex">
+          <span class="ex-icon">🔍</span>
+          <h4>Research Agent</h4>
+          <p>Tell it: "Research summer programs for a 7-year-old in NYC, under $3k, with spots still open." It searches, compares, and returns a ranked list.</p>
+          <span class="try-now">Try with Perplexity</span>
+        </div>
+        <div class="agent-ex">
+          <span class="ex-icon">🛒</span>
+          <h4>Shopping Agent</h4>
+          <p>"Find the best-reviewed lunchbox under $40 that fits in a Buckley cubby and has no BPA." Done. With links.</p>
+          <span class="try-now">Try with ChatGPT Operator</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem; background:rgba(30,86,200,0.12); border:1px solid rgba(30,86,200,0.3); padding:1.5rem; max-width:700px;">
+      <p class="muted" style="color:var(--accent); margin-bottom:0.5rem; display:block;">THE MINDSET SHIFT</p>
+      <p style="font-family:var(--serif); font-size:1.25rem; font-style:italic; color:var(--paper); max-width:none; line-height:1.5;">Stop asking AI for answers. Start assigning AI tasks — with a deadline and a deliverable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIBE CODING -->
+<section id="vibe">
+  <div class="eyebrow">A New Way to Build</div>
+  <h2>Vibe <em>Coding</em></h2>
+  <div class="rule"></div>
+  <p class="lead">Coined by Andrej Karpathy — one of the founders of OpenAI — in early 2025. Instead of writing code yourself, you <strong>describe what you want</strong> in plain English, and the AI builds it. The skill isn't coding anymore — it's knowing what to ask for and recognizing when it's right.</p>
+
+  <div class="before-after">
+    <div class="ba-col before">
+      <span class="ba-label">The old way</span>
+      <p>Learn Python. Study HTML. Understand databases. Take courses for months. Write hundreds of lines of code. Debug errors. Start over. Repeat indefinitely.</p>
+    </div>
+    <div class="ba-col after">
+      <span class="ba-label">Vibe coding</span>
+      <p>Open Claude Code. Describe what you want. Watch it appear in seconds. Give feedback. Iterate. Walk away with something real.</p>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>"The best interface for AI is the one you've been using your whole life — plain English."</p>
+  </div>
+
+  <div class="steps" style="margin-top:1rem;">
+    <div class="step">
+      <span class="step-num">The old skill</span>
+      <h3>Prompt engineering</h3>
+      <p>For a moment, people sold courses on how to word your inputs. Frameworks, formulas, incantations.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">The new skill</span>
+      <h3>Clear intention</h3>
+      <p>Be specific. Give context. Say what you actually want. Push back when it's wrong. That's it. You already know how to do this.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLAUDE CODE -->
+<section class="cream-bg">
+  <div class="eyebrow">Claude Code</div>
+  <h2>You don't need a terminal.<br><em>You don't need VS Code.</em></h2>
+  <div class="rule"></div>
+  <p class="lead">Claude Code used to be a terminal-only developer tool. Anthropic now offers a <strong>Desktop App</strong> that gives you the same full power through a regular window — download and open it like any other app.</p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">Step 1</span>
+      <h3>Go to claude.ai</h3>
+      <p>Create a free account with your email address. No credit card required to start.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">Step 2</span>
+      <h3>Upgrade to Claude Pro</h3>
+      <p>$20/month. This unlocks Claude Code. The free plan doesn't include it.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">Step 3</span>
+      <h3>Download the Desktop App</h3>
+      <p>Available for Mac and Windows. Installs like any normal app — no terminal involved.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">Step 4</span>
+      <h3>Open and start talking</h3>
+      <p>Describe what you want to build in plain English. No coding experience required. Just a conversation.</p>
+    </div>
+  </div>
+
+  <div class="insight" style="margin-top:2.5rem;">
+    <span class="i-label">Web Apps vs. Native iOS Apps</span>
+    <p>Web apps run in any browser — phone, laptop, tablet — and can be added to your home screen as a Progressive Web App (no App Store, no fees). Native iOS apps require Xcode, a Mac, and a $99/year Apple Developer Account. For this workshop, we're building web apps — faster, free, and just as useful.</p>
+  </div>
+</section>
+
+<!-- LLM LANDSCAPE -->
+<section id="llms">
+  <div class="eyebrow">The Players</div>
+  <h2>Who's building<br><em>the major AI models?</em></h2>
+  <div class="rule"></div>
+  <p class="lead">There isn't one AI — there are several, made by competing companies with different personalities, strengths, and philosophies. Here's how to think about the main ones.</p>
+
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; margin-top:3rem;">
+
+    <div style="border:1px solid rgba(15,14,12,0.1); padding:2rem; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#10a37f;"></div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <div style="width:36px; height:36px; background:#10a37f; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">🤖</div>
+        <div>
+          <div style="font-weight:600; font-size:1rem;">OpenAI</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">ChatGPT · GPT-5</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">The company that started the public AI wave with ChatGPT in 2022. Backed by Microsoft. The most recognized name — most people's first AI.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Widest brand recognition</span>
+        <span class="tag">Best all-rounder</span>
+        <span class="tag">Canvas editor for writing</span>
+        <span class="tag">DALL·E image gen</span>
+      </div>
+      <div style="border-top:1px solid rgba(15,14,12,0.08); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">LATEST MODEL</div>
+        <div style="font-weight:500; font-size:0.9rem;">GPT-5.3</div>
+        <div style="font-size:0.78rem; color:var(--muted);">$20/mo · ChatGPT Plus</div>
+      </div>
+    </div>
+
+    <div style="border:2px solid var(--accent); padding:2rem; position:relative; overflow:hidden; background:rgba(30,86,200,0.03);">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent);"></div>
+      <div style="position:absolute; top:1rem; right:1rem; font-family:var(--mono); font-size:0.55rem; letter-spacing:0.08em; color:var(--accent); background:rgba(30,86,200,0.1); padding:0.2rem 0.5rem; border-radius:2rem;">we use this</div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <div style="width:36px; height:36px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">✦</div>
+        <div>
+          <div style="font-weight:600; font-size:1rem;">Anthropic</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">Claude · Sonnet · Opus</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">Founded by former OpenAI researchers focused on AI safety. Claude is known for being thoughtful, nuanced, and exceptionally good at writing, reasoning, and long documents.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Best writing quality</span>
+        <span class="tag">Safest outputs</span>
+        <span class="tag">Claude Code + Cowork</span>
+        <span class="tag">1M token context</span>
+      </div>
+      <div style="border-top:1px solid rgba(30,86,200,0.15); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">LATEST MODEL</div>
+        <div style="font-weight:500; font-size:0.9rem;">Claude Opus 4.6 · Sonnet 4.6</div>
+        <div style="font-size:0.78rem; color:var(--muted);">$20/mo Pro · $100/mo Max</div>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(15,14,12,0.1); padding:2rem; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#4285f4;"></div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <div style="width:36px; height:36px; background:#4285f4; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">🔷</div>
+        <div>
+          <div style="font-weight:600; font-size:1rem;">Google DeepMind</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">Gemini · Gemini Advanced</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">The search giant with the deepest AI research history. Gemini is built into Google Search, Gmail, Docs, and more. If you use Google products, you already have access.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Best benchmark scores right now</span>
+        <span class="tag">Google Workspace built-in</span>
+        <span class="tag">Best value pricing</span>
+        <span class="tag">Video + audio</span>
+      </div>
+      <div style="border-top:1px solid rgba(15,14,12,0.08); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">LATEST MODEL</div>
+        <div style="font-weight:500; font-size:0.9rem;">Gemini 3.1 Pro</div>
+        <div style="font-size:0.78rem; color:var(--muted);">$19.99/mo · Google One AI Premium</div>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(15,14,12,0.1); padding:2rem; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#0668E1;"></div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <div style="width:36px; height:36px; background:#0668E1; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">🔵</div>
+        <div>
+          <div style="font-weight:600; font-size:1rem;">Meta AI</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">Llama 4 · Open Source</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">Facebook's parent company took a different bet — releasing their models as open source. Anyone can download and run Llama. It powers thousands of other products and apps.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Free and open source</span>
+        <span class="tag">Runs privately on your device</span>
+        <span class="tag">Powers hundreds of products</span>
+        <span class="tag">10M token context</span>
+      </div>
+      <div style="border-top:1px solid rgba(15,14,12,0.08); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">LATEST MODEL</div>
+        <div style="font-weight:500; font-size:0.9rem;">Llama 4 Maverick · Scout</div>
+        <div style="font-size:0.78rem; color:var(--muted);">Free to download · No subscription</div>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(15,14,12,0.1); padding:2rem; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#1da1f2;"></div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <div style="width:36px; height:36px; background:#1da1f2; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">𝕏</div>
+        <div>
+          <div style="font-weight:600; font-size:1rem;">xAI (Elon Musk)</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">Grok 4 · Real-time X data</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">Built into X (Twitter). Grok's edge is access to real-time posts and news — it knows what happened in the last hour. Also the cheapest frontier model by API cost.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Real-time X data</span>
+        <span class="tag">Cheapest API costs</span>
+        <span class="tag">Leads coding benchmarks</span>
+        <span class="tag">Fewer content restrictions</span>
+      </div>
+      <div style="border-top:1px solid rgba(15,14,12,0.08); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">LATEST MODEL</div>
+        <div style="font-weight:500; font-size:0.9rem;">Grok 4</div>
+        <div style="font-size:0.78rem; color:var(--muted);">$22/mo · X Premium+</div>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(15,14,12,0.1); padding:2rem; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#7b5ea7;"></div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <div style="width:36px; height:36px; background:#7b5ea7; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">🌊</div>
+        <div>
+          <div style="font-weight:600; font-size:1rem;">DeepSeek</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">China · Open Source · R1</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">The Chinese lab that shocked the industry in early 2025 by releasing a model that matched GPT-4 at a fraction of the cost. Raised serious questions about the US lead in AI.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Shockingly low cost</span>
+        <span class="tag">Strong reasoning</span>
+        <span class="tag">Open source</span>
+        <span class="tag">China-based — privacy note</span>
+      </div>
+      <div style="border-top:1px solid rgba(15,14,12,0.08); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">LATEST MODEL</div>
+        <div style="font-weight:500; font-size:0.9rem;">DeepSeek V3 / R1</div>
+        <div style="font-size:0.78rem; color:var(--muted);">Free web · Very cheap API</div>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(15,14,12,0.1); padding:2rem; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#4285f4;"></div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <div style="width:36px; height:36px; background:#4285f4; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">💎</div>
+        <div>
+          <div style="font-weight:600; font-size:1rem;">Google — Gemma</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">Open Source · Runs Privately</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">Gemini is Google's paid product. Gemma is Google's free, open-source cousin — a lighter model you can download and run privately on your own device. Same research lineage, no subscription required.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Free to download</span>
+        <span class="tag">Runs on your own hardware</span>
+        <span class="tag">Privacy — no data sent to Google</span>
+        <span class="tag">Google research quality</span>
+      </div>
+      <div style="border-top:1px solid rgba(15,14,12,0.08); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">THINK OF IT AS</div>
+        <div style="font-weight:500; font-size:0.9rem;">Google's version of Meta Llama</div>
+        <div style="font-size:0.78rem; color:var(--muted);">Free · Developer / researcher tool</div>
+      </div>
+    </div>
+
+    <!-- QWEN -->
+    <div style="border:1px solid rgba(15,14,12,0.1); padding:2rem; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#1e56c8;"></div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <div style="width:36px; height:36px; background:#1e56c8; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">🔵</div>
+        <div>
+          <div style="font-weight:600; font-size:1rem;">Alibaba — Qwen</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">China · Open Source · Multilingual</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">Alibaba's open-source model family — and one of the biggest surprises in AI. Qwen 3.5 is now genuinely competitive with GPT-4 class models and is dominant in multilingual and non-English tasks.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Best multilingual model</span>
+        <span class="tag">Open source</span>
+        <span class="tag">90,000+ enterprise adopters</span>
+        <span class="tag">Closing gap fast</span>
+      </div>
+      <div style="border-top:1px solid rgba(15,14,12,0.08); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">LATEST MODEL</div>
+        <div style="font-weight:500; font-size:0.9rem;">Qwen 3.5</div>
+        <div style="font-size:0.78rem; color:var(--muted);">Free · Alibaba Cloud API</div>
+      </div>
+    </div>
+
+    <!-- MISTRAL -->
+    <div style="border:1px solid rgba(15,14,12,0.1); padding:2rem; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#1e56c8;"></div>
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+        <img src="https://logo.clearbit.com/mistral.ai" style="width:36px; height:36px; object-fit:contain; border-radius:50%;" onerror="this.style.display='none'">
+        <div>
+          <div style="font-weight:600; font-size:1rem;">Mistral AI</div>
+          <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); letter-spacing:0.06em;">France · Open Source · Fast</div>
+        </div>
+      </div>
+      <p style="font-size:0.875rem; line-height:1.65; max-width:none; margin-bottom:1rem;">The European challenger. French AI lab building open-source models known for speed and efficiency. Mistral punches well above its weight — smaller models that outperform much larger ones.</p>
+      <div style="font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-bottom:0.35rem; letter-spacing:0.04em;">KNOWN FOR</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.25rem;">
+        <span class="tag">Best speed-to-quality ratio</span>
+        <span class="tag">European / GDPR-friendly</span>
+        <span class="tag">Great for coding</span>
+        <span class="tag">Truly open source</span>
+      </div>
+      <div style="border-top:1px solid rgba(15,14,12,0.08); padding-top:1rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em;">LATEST MODEL</div>
+        <div style="font-weight:500; font-size:0.9rem;">Mixtral · Magistral 2</div>
+        <div style="font-size:0.78rem; color:var(--muted);">Free · mistral.ai</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:3rem; background:var(--ink); color:var(--paper); padding:2rem 2.5rem; display:grid; grid-template-columns:1fr 1fr 1fr; gap:2rem;">
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:rgba(247,244,239,0.4); margin-bottom:0.5rem;">CLOSED vs. OPEN</div>
+      <p style="font-size:0.85rem; line-height:1.6; color:rgba(247,244,244,0.75); max-width:none;"><strong style="color:var(--paper);">Closed models</strong> (OpenAI, Anthropic, Google) keep their code private. <strong style="color:var(--paper);">Open models</strong> (Meta, DeepSeek) publish it — anyone can build on top, modify, or run them privately.</p>
+    </div>
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:rgba(247,244,239,0.4); margin-bottom:0.5rem;">THE BOTTOM LINE</div>
+      <p style="font-size:0.85rem; line-height:1.6; color:rgba(247,244,239,0.75); max-width:none;">There's no single winner. Each model has a personality and a sweet spot. Most power users keep 2-3 open and switch depending on the task.</p>
+    </div>
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:rgba(247,244,239,0.4); margin-bottom:0.5rem;">WHY WE USE CLAUDE</div>
+      <p style="font-size:0.85rem; line-height:1.6; color:rgba(247,244,239,0.75); max-width:none;">Best writing quality, strongest safety track record, and the most complete agentic ecosystem — Code, Cowork, Chrome. The most complete platform for building real things.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:1px; background:rgba(15,14,12,0.96); padding:1.5rem 2.5rem; display:flex; align-items:center; gap:2rem; border-top:1px solid rgba(247,244,239,0.06);">
+    <img src="https://logo.clearbit.com/microsoft.com" style="width:28px; height:28px; object-fit:contain; flex-shrink:0;" onerror="this.style.display='none'">
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:rgba(247,244,239,0.4); margin-bottom:0.3rem;">NOTABLE EXCEPTION — MICROSOFT</div>
+      <p style="font-size:0.82rem; line-height:1.6; color:rgba(247,244,239,0.65); max-width:none;">Microsoft doesn't compete with a frontier model of its own. Instead they invested $13B in OpenAI, struck a $30B compute deal with Anthropic, and built <strong style="color:var(--paper);">Copilot</strong> on top of both. Their open-source model <strong style="color:var(--paper);">Phi 4</strong> is small but excellent. Their strategy: be the platform and infrastructure for all the best models — not build one themselves.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOCAL LLM -->
+<section id="local-llm" class="dark">
+  <div style="max-width:1100px; margin:0 auto; width:100%;">
+    <div class="eyebrow">Going Deeper</div>
+    <h2 style="color:var(--paper);">What is a<br><em style="color:var(--accent);">Local LLM?</em></h2>
+    <div class="rule"></div>
+    <p class="lead" style="color:rgba(247,244,239,0.8); max-width:680px;">Normally when you use Claude or ChatGPT, your words travel to a server, get processed, and come back. A local LLM runs <strong style="color:var(--paper);">entirely on your own computer.</strong> Nothing leaves your machine.</p>
+
+    <!-- CLOUD VS LOCAL -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:3rem;">
+      <div style="border:1px solid rgba(247,244,239,0.1); padding:2rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:rgba(247,244,239,0.4); margin-bottom:1rem;">CLOUD AI (what you normally use)</div>
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:rgba(247,244,239,0.3); margin-top:2px;">→</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.65); max-width:none; line-height:1.55;">Your message goes to Anthropic's / OpenAI's servers</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:rgba(247,244,239,0.3); margin-top:2px;">→</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.65); max-width:none; line-height:1.55;">Processed in the cloud, response sent back</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:rgba(247,244,239,0.3); margin-top:2px;">→</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.65); max-width:none; line-height:1.55;">Most powerful models available</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:rgba(247,244,239,0.3); margin-top:2px;">→</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.65); max-width:none; line-height:1.55;">Requires internet · Monthly subscription</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:rgba(247,244,239,0.3); margin-top:2px;">→</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.65); max-width:none; line-height:1.55;">Company can see your prompts (per their privacy policy)</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--accent); padding:2rem; background:rgba(30,86,200,0.08);">
+        <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:var(--accent); margin-bottom:1rem;">LOCAL LLM (runs on your computer)</div>
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:var(--accent); margin-top:2px;">✓</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.85); max-width:none; line-height:1.55;">Everything stays on your machine — zero data sent out</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:var(--accent); margin-top:2px;">✓</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.85); max-width:none; line-height:1.55;">Works offline — plane, no wifi, anywhere</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:var(--accent); margin-top:2px;">✓</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.85); max-width:none; line-height:1.55;">Download once, use forever — no monthly fee</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:var(--accent); margin-top:2px;">✓</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.85); max-width:none; line-height:1.55;">No usage limits, no rate throttling</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+            <span style="color:rgba(247,244,239,0.3); margin-top:2px;">↓</span>
+            <p style="font-size:0.875rem; color:rgba(247,244,239,0.5); max-width:none; line-height:1.55;">Less powerful than cloud frontier models — you're trading raw capability for privacy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHEN YOU WANT THIS -->
+    <div style="margin-top:3rem;">
+      <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:1.25rem;">WHEN DOES THIS ACTUALLY MATTER — FOR YOUR LIFE</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1px; background:rgba(247,244,239,0.08);">
+        <div style="background:rgba(15,14,12,0.5); padding:1.5rem;">
+          <span style="font-size:1.5rem; display:block; margin-bottom:0.75rem;">⚕️</span>
+          <h4 style="font-size:0.9rem; color:var(--paper); margin-bottom:0.4rem; font-family:var(--sans); font-weight:500;">Medical records</h4>
+          <p style="font-size:0.78rem; color:rgba(247,244,239,0.55); line-height:1.55; max-width:none;">Analyzing health documents, insurance paperwork, or a family member's diagnosis — locally, privately.</p>
+        </div>
+        <div style="background:rgba(15,14,12,0.5); padding:1.5rem;">
+          <span style="font-size:1.5rem; display:block; margin-bottom:0.75rem;">⚖️</span>
+          <h4 style="font-size:0.9rem; color:var(--paper); margin-bottom:0.4rem; font-family:var(--sans); font-weight:500;">Legal documents</h4>
+          <p style="font-size:0.78rem; color:rgba(247,244,239,0.55); line-height:1.55; max-width:none;">Contracts, estate planning, NDAs — you want AI help but you don't want those words on anyone's server.</p>
+        </div>
+        <div style="background:rgba(15,14,12,0.5); padding:1.5rem;">
+          <span style="font-size:1.5rem; display:block; margin-bottom:0.75rem;">💼</span>
+          <h4 style="font-size:0.9rem; color:var(--paper); margin-bottom:0.4rem; font-family:var(--sans); font-weight:500;">Confidential work</h4>
+          <p style="font-size:0.78rem; color:rgba(247,244,239,0.55); line-height:1.55; max-width:none;">Board memos, M&A documents, client strategy — anything with NDA implications or fiduciary responsibility.</p>
+        </div>
+        <div style="background:rgba(15,14,12,0.5); padding:1.5rem;">
+          <span style="font-size:1.5rem; display:block; margin-bottom:0.75rem;">👧</span>
+          <h4 style="font-size:0.9rem; color:var(--paper); margin-bottom:0.4rem; font-family:var(--sans); font-weight:500;">Your kids' information</h4>
+          <p style="font-size:0.78rem; color:rgba(247,244,239,0.55); line-height:1.55; max-width:none;">School records, IEP documents, pediatric notes — some parents prefer this stays entirely off cloud servers.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO GET STARTED -->
+    <div style="margin-top:3rem; display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;">
+      <div>
+        <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:1.25rem;">HOW TO RUN ONE — EASIER THAN YOU THINK</p>
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div style="display:flex; gap:1rem; align-items:flex-start;">
+            <span style="font-family:var(--mono); font-size:0.65rem; color:var(--accent); min-width:24px; padding-top:2px;">01</span>
+            <div>
+              <div style="font-weight:500; color:var(--paper); font-size:0.9rem; margin-bottom:0.2rem;">Download Ollama</div>
+              <div style="font-size:0.8rem; color:rgba(247,244,239,0.55); line-height:1.5;">Free app for Mac and Windows. Installs in 60 seconds. ollama.com</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:1rem; align-items:flex-start;">
+            <span style="font-family:var(--mono); font-size:0.65rem; color:var(--accent); min-width:24px; padding-top:2px;">02</span>
+            <div>
+              <div style="font-weight:500; color:var(--paper); font-size:0.9rem; margin-bottom:0.2rem;">Pull a model</div>
+              <div style="font-size:0.8rem; color:rgba(247,244,239,0.55); line-height:1.5;">Type one command: <span style="font-family:var(--mono); color:var(--accent);">ollama run llama4</span> and it downloads automatically.</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:1rem; align-items:flex-start;">
+            <span style="font-family:var(--mono); font-size:0.65rem; color:var(--accent); min-width:24px; padding-top:2px;">03</span>
+            <div>
+              <div style="font-weight:500; color:var(--paper); font-size:0.9rem; margin-bottom:0.2rem;">Add a friendly UI</div>
+              <div style="font-size:0.8rem; color:rgba(247,244,239,0.55); line-height:1.5;">Apps like <strong style="color:var(--paper);">LM Studio</strong> give you a ChatGPT-style interface — no command line needed at all.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:1.25rem;">WHAT RUNS WELL LOCALLY</p>
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem; background:rgba(247,244,239,0.05); border:1px solid rgba(247,244,239,0.08);">
+            <span style="font-size:0.85rem; color:var(--paper);">Meta Llama 4 Scout</span>
+            <span style="font-family:var(--mono); font-size:0.6rem; color:var(--accent3);">Best overall</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem; background:rgba(247,244,239,0.05); border:1px solid rgba(247,244,239,0.08);">
+            <span style="font-size:0.85rem; color:var(--paper);">Google Gemma 3</span>
+            <span style="font-family:var(--mono); font-size:0.6rem; color:var(--accent3);">Lightweight · Fast</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem; background:rgba(247,244,239,0.05); border:1px solid rgba(247,244,239,0.08);">
+            <span style="font-size:0.85rem; color:var(--paper);">Microsoft Phi 4</span>
+            <span style="font-family:var(--mono); font-size:0.6rem; color:var(--accent3);">Best on small devices</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem; background:rgba(247,244,239,0.05); border:1px solid rgba(247,244,239,0.08);">
+            <span style="font-size:0.85rem; color:var(--paper);">Mistral</span>
+            <span style="font-family:var(--mono); font-size:0.6rem; color:var(--accent3);">Fast · Multilingual</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem; border:1px solid rgba(30,86,200,0.3); background:rgba(30,86,200,0.08); padding:1.5rem; max-width:700px;">
+      <p class="muted" style="color:var(--accent); margin-bottom:0.5rem; display:block;">THE HONEST TRADEOFF</p>
+      <p style="font-family:var(--serif); font-size:1.2rem; font-style:italic; color:var(--paper); max-width:none; line-height:1.5;">A local LLM is like having a very capable assistant who works entirely inside your house and never tells anyone anything. They're not quite as brilliant as the best cloud models — but they're completely yours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERTICAL LLMS -->
+<section id="vertical-llms">
+  <div class="eyebrow">Specialization</div>
+  <h2>What is a<br><em>Vertical LLM?</em></h2>
+  <div class="rule"></div>
+  <p class="lead">A local LLM is about <strong>where</strong> it runs. A vertical LLM is about <strong>what</strong> it knows. These are models trained specifically on one industry's language, documents, and data — making them far more precise than a general model in their domain.</p>
+
+  <div style="margin-top:2.5rem; display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; max-width:700px;">
+    <div style="background:var(--cream); padding:1.25rem; border-left:3px solid var(--ink);">
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:var(--muted); margin-bottom:0.4rem;">GENERAL LLM</div>
+      <p style="font-size:0.875rem; line-height:1.6; max-width:none;">Knows a little about everything. Great for most tasks. Like a very well-read generalist.</p>
+    </div>
+    <div style="background:var(--cream); padding:1.25rem; border-left:3px solid var(--accent);">
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:var(--accent); margin-bottom:0.4rem;">VERTICAL LLM</div>
+      <p style="font-size:0.875rem; line-height:1.6; max-width:none;">Trained deeply on one field. Speaks the language. Knows the nuance. Like a specialist with 20 years in the room.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <p class="muted" style="margin-bottom:1.5rem;">REAL EXAMPLES BY INDUSTRY</p>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.5rem;">
+
+      <div style="border:1px solid rgba(15,14,12,0.1); padding:1.75rem;">
+        <div style="font-size:1.5rem; margin-bottom:0.75rem;">⚖️</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Legal</div>
+        <div style="font-weight:600; font-size:1rem; margin-bottom:0.5rem;">Harvey</div>
+        <p style="font-size:0.82rem; line-height:1.6; max-width:none; color:rgba(15,14,12,0.7);">Trained on case law, contracts, and legal precedent. Used by major law firms to review documents and draft arguments.</p>
+      </div>
+
+      <div style="border:1px solid rgba(15,14,12,0.1); padding:1.75rem;">
+        <div style="font-size:1.5rem; margin-bottom:0.75rem;">📈</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Finance</div>
+        <div style="font-weight:600; font-size:1rem; margin-bottom:0.5rem;">Bloomberg GPT</div>
+        <p style="font-size:0.82rem; line-height:1.6; max-width:none; color:rgba(15,14,12,0.7);">Trained on 40 years of financial documents, earnings calls, and market data. Understands financial language at a level general models can't match.</p>
+      </div>
+
+      <div style="border:1px solid rgba(15,14,12,0.1); padding:1.75rem;">
+        <div style="font-size:1.5rem; margin-bottom:0.75rem;">⚕️</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Healthcare</div>
+        <div style="font-weight:600; font-size:1rem; margin-bottom:0.5rem;">Tempus · Med-PaLM</div>
+        <p style="font-size:0.82rem; line-height:1.6; max-width:none; color:rgba(15,14,12,0.7);">Trained on clinical records, oncology research, and medical imaging. Helps doctors analyze diagnoses and treatment options.</p>
+      </div>
+
+      <div style="border:1px solid rgba(15,14,12,0.1); padding:1.75rem;">
+        <div style="font-size:1.5rem; margin-bottom:0.75rem;">🎨</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Creative</div>
+        <div style="font-weight:600; font-size:1rem; margin-bottom:0.5rem;">Adobe Firefly</div>
+        <p style="font-size:0.82rem; line-height:1.6; max-width:none; color:rgba(15,14,12,0.7);">Trained exclusively on licensed creative assets — no copyright issues. Built specifically for designers and creative professionals.</p>
+      </div>
+
+      <div style="border:1px solid rgba(15,14,12,0.1); padding:1.75rem;">
+        <div style="font-size:1.5rem; margin-bottom:0.75rem;">🏫</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Education</div>
+        <div style="font-weight:600; font-size:1rem; margin-bottom:0.5rem;">Khan · Khanmigo</div>
+        <p style="font-size:0.82rem; line-height:1.6; max-width:none; color:rgba(15,14,12,0.7);">Built on Khan Academy's entire curriculum. Acts as a personal tutor — never just gives the answer, guides the student to find it.</p>
+      </div>
+
+      <div style="border:1px solid rgba(15,14,12,0.1); padding:1.75rem;">
+        <div style="font-size:1.5rem; margin-bottom:0.75rem;">🛍️</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.4rem;">Retail & Fashion</div>
+        <div style="font-weight:600; font-size:1rem; margin-bottom:0.5rem;">Jasper · Stylist AI</div>
+        <p style="font-size:0.82rem; line-height:1.6; max-width:none; color:rgba(15,14,12,0.7);">Trained on brand voice, product catalogs, and consumer behavior. Writes marketing copy and product descriptions that convert.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin-top:3rem; background:var(--ink); padding:2rem 2.5rem; display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:rgba(247,244,239,0.4); margin-bottom:0.5rem;">THE MATRIX</div>
+      <table style="width:100%; border-collapse:collapse; font-size:0.8rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5rem 0.75rem; border-bottom:1px solid rgba(247,244,239,0.15); color:rgba(247,244,239,0.4); font-family:var(--mono); font-size:0.58rem; letter-spacing:0.06em; font-weight:400;"></th>
+            <th style="text-align:left; padding:0.5rem 0.75rem; border-bottom:1px solid rgba(247,244,239,0.15); color:rgba(247,244,239,0.4); font-family:var(--mono); font-size:0.58rem; letter-spacing:0.06em; font-weight:400;">CLOUD</th>
+            <th style="text-align:left; padding:0.5rem 0.75rem; border-bottom:1px solid rgba(247,244,239,0.15); color:rgba(247,244,239,0.4); font-family:var(--mono); font-size:0.58rem; letter-spacing:0.06em; font-weight:400;">LOCAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.5rem 0.75rem; color:rgba(247,244,239,0.5); font-family:var(--mono); font-size:0.62rem;">GENERAL</td>
+            <td style="padding:0.5rem 0.75rem; color:rgba(247,244,239,0.8);">Claude, ChatGPT</td>
+            <td style="padding:0.5rem 0.75rem; color:rgba(247,244,239,0.8);">Llama, Gemma</td>
+          </tr>
+          <tr>
+            <td style="padding:0.5rem 0.75rem; color:rgba(247,244,239,0.5); font-family:var(--mono); font-size:0.62rem;">VERTICAL</td>
+            <td style="padding:0.5rem 0.75rem; color:rgba(247,244,239,0.8);">Harvey, Bloomberg GPT</td>
+            <td style="padding:0.5rem 0.75rem; color:var(--accent);">Rare — enterprise only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:rgba(247,244,239,0.4); margin-bottom:0.5rem;">WHY IT MATTERS TO YOU</div>
+      <p style="font-size:0.85rem; line-height:1.6; color:rgba(247,244,239,0.75); max-width:none;">If you ever work with a specialized AI tool in your field — a legal research assistant, a financial planning tool, a tutoring app for your kids — you're likely using a vertical LLM under the hood. The general models you're learning today are the foundation everything else is built on.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ANTHROPIC PRODUCT ECOSYSTEM -->
+<section id="ecosystem" class="cream-bg">
+  <div class="eyebrow">The Anthropic Product Stack</div>
+  <h2>One company. A whole<br><em>ecosystem of tools.</em></h2>
+  <div class="rule"></div>
+  <p>You've heard of Claude. But Anthropic has built an entire suite of products — each one designed for a different level of access and a different kind of user. Here's how they all fit together.</p>
+
+  <!-- PRODUCT TIMELINE -->
+  <div style="margin-top:3rem; margin-bottom:0.5rem;">
+    <p class="muted">LAUNCH TIMELINE</p>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:0; border-left:2px solid rgba(15,14,12,0.12); margin-left:0.75rem; margin-top:1.25rem;">
+    <div style="display:flex; gap:1.5rem; padding:0 0 1.75rem 2rem; position:relative;">
+      <div style="position:absolute; left:-6px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--muted);"></div>
+      <div style="min-width:110px; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.06em; color:var(--muted); padding-top:2px;">Nov 2024</div>
+      <div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.2rem;">Claude Code (CLI)</div>
+        <div style="font-size:0.82rem; color:var(--muted); line-height:1.5;">Terminal-based coding agent. Developers only — but people immediately started using it for everything else.</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:1.5rem; padding:0 0 1.75rem 2rem; position:relative;">
+      <div style="position:absolute; left:-6px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--muted);"></div>
+      <div style="min-width:110px; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.06em; color:var(--muted); padding-top:2px;">Oct 2025</div>
+      <div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.2rem;">Claude Code Web Interface</div>
+        <div style="font-size:0.82rem; color:var(--muted); line-height:1.5;">No terminal required. Claude Code moves into the browser and then into a downloadable Desktop App.</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:1.5rem; padding:0 0 1.75rem 2rem; position:relative;">
+      <div style="position:absolute; left:-6px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--accent2);"></div>
+      <div style="min-width:110px; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.06em; color:var(--muted); padding-top:2px;">Jan 13, 2026</div>
+      <div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.2rem; color:var(--accent2);">Claude Cowork launches ✦</div>
+        <div style="font-size:0.82rem; color:var(--muted); line-height:1.5;">Claude Code for non-developers. Mac only, Max plan only at launch. Lets Claude read and edit files in a folder you designate — no terminal needed.</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:1.5rem; padding:0 0 1.75rem 2rem; position:relative;">
+      <div style="position:absolute; left:-6px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--accent2);"></div>
+      <div style="min-width:110px; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.06em; color:var(--muted); padding-top:2px;">Feb 2026</div>
+      <div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.2rem; color:var(--accent2);">Cowork expands: Plugins + Pro access</div>
+        <div style="font-size:0.82rem; color:var(--muted); line-height:1.5;">Google Workspace, DocuSign, and other enterprise connectors added. Pro plan subscribers get access. Scheduled recurring tasks launch.</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:1.5rem; padding:0 0 0 2rem; position:relative;">
+      <div style="position:absolute; left:-6px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--accent);"></div>
+      <div style="min-width:110px; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.06em; color:var(--muted); padding-top:2px;">Apr 3, 2026</div>
+      <div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.2rem; color:var(--accent);">Cowork + Computer Use → Windows ← we are here</div>
+        <div style="font-size:0.82rem; color:var(--muted); line-height:1.5;">Full Windows parity. Computer use: Claude can now see your screen, click, type, and navigate apps on your behalf. Pro + Max.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT CARDS -->
+  <div style="margin-top:3.5rem;">
+    <p class="muted" style="margin-bottom:1.25rem;">THE FULL PRODUCT LINEUP</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1px; background:rgba(15,14,12,0.08);">
+
+      <div style="background:var(--paper); padding:1.5rem;">
+        <div style="font-size:1.25rem; margin-bottom:0.75rem;">💬</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.35rem;">claude.ai</div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.4rem;">Claude Chat</div>
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.55;">The conversational interface. Web + mobile. Free tier available. Where most people start.</div>
+        <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.6rem; color:var(--accent3);">FREE · PRO · MAX</div>
+      </div>
+
+      <div style="background:var(--paper); padding:1.5rem;">
+        <div style="font-size:1.25rem; margin-bottom:0.75rem;">💻</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.35rem;">Desktop App</div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.4rem;">Claude Code</div>
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.55;">Builds apps, writes code, manages files. Works in a browser window or the Desktop App. No terminal required.</div>
+        <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.6rem; color:var(--accent2);">PRO · MAX · ENTERPRISE</div>
+      </div>
+
+      <div style="background:var(--paper); padding:1.5rem; border:1px solid rgba(30,86,200,0.25);">
+        <div style="font-size:1.25rem; margin-bottom:0.75rem;">🗂️</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin-bottom:0.35rem;">Desktop App · NEW</div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.4rem; color:var(--accent);">Claude Cowork</div>
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.55;">Claude Code without the code. Designate a folder → Claude reads, edits, and creates files on your behalf. Can now control your screen.</div>
+        <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.6rem; color:var(--accent);">PRO · MAX · Research Preview</div>
+      </div>
+
+      <div style="background:var(--paper); padding:1.5rem;">
+        <div style="font-size:1.25rem; margin-bottom:0.75rem;">🌐</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.35rem;">Chrome Extension</div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.4rem;">Claude in Chrome</div>
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.55;">Browses the web on your behalf. Research, summarize, fill out forms — all from the browser sidebar.</div>
+        <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.6rem; color:var(--accent2);">PRO · MAX</div>
+      </div>
+
+      <div style="background:var(--paper); padding:1.5rem;">
+        <div style="font-size:1.25rem; margin-bottom:0.75rem;">📊</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.35rem;">Add-ins</div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.4rem;">Claude for Excel · PowerPoint</div>
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.55;">Claude lives inside your Office apps. Analyze data, build slides, and format documents without copy-pasting.</div>
+        <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.6rem; color:var(--accent2);">PRO · MAX · ENTERPRISE</div>
+      </div>
+
+      <div style="background:var(--paper); padding:1.5rem;">
+        <div style="font-size:1.25rem; margin-bottom:0.75rem;">🔌</div>
+        <div style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.35rem;">Connectors / Plugins</div>
+        <div style="font-weight:500; font-size:0.95rem; margin-bottom:0.4rem;">Google, Slack, DocuSign…</div>
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.55;">Claude connects to the apps you already use. Works inside Cowork and Claude Code. Expanding fast.</div>
+        <div style="margin-top:0.75rem; font-family:var(--mono); font-size:0.6rem; color:var(--muted);">VARIES BY PLAN</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COWORK SPOTLIGHT -->
+  <div style="margin-top:3rem; background:var(--ink); color:var(--paper); padding:2.5rem; display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
+    <div>
+      <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:0.75rem; display:block;">COWORK IN PLAIN ENGLISH</p>
+      <h3 style="color:var(--paper); font-size:1.6rem; margin-bottom:1rem;">Think of it as hiring a very fast, very thorough assistant who works inside your computer.</h3>
+      <p style="color:rgba(247,244,239,0.7); font-size:0.9rem; max-width:none; line-height:1.7;">You point Claude at a folder. You give it a task. It reads your files, figures out what needs to happen, does it, and tells you when it's done. You can walk away. No babysitting required.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:1rem;">
+      <div style="border-left:2px solid var(--accent); padding:0.75rem 1rem; background:rgba(247,244,239,0.05);">
+        <div style="font-family:var(--mono); font-size:0.62rem; color:var(--accent); margin-bottom:0.35rem; letter-spacing:0.06em;">EXAMPLE TASK</div>
+        <div style="font-size:0.85rem; color:rgba(247,244,239,0.8); line-height:1.5;">"Read all the PDFs in my Downloads folder and make me a spreadsheet with vendor, amount, and date for every receipt."</div>
+      </div>
+      <div style="border-left:2px solid var(--accent); padding:0.75rem 1rem; background:rgba(247,244,239,0.05);">
+        <div style="font-family:var(--mono); font-size:0.62rem; color:var(--accent); margin-bottom:0.35rem; letter-spacing:0.06em;">EXAMPLE TASK</div>
+        <div style="font-size:0.85rem; color:rgba(247,244,239,0.8); line-height:1.5;">"Every Monday morning, scan my email, summarize anything that needs my attention, and draft replies for the ones that are routine."</div>
+      </div>
+      <div style="border-left:2px solid var(--accent); padding:0.75rem 1rem; background:rgba(247,244,239,0.05);">
+        <div style="font-family:var(--mono); font-size:0.62rem; color:var(--accent); margin-bottom:0.35rem; letter-spacing:0.06em;">EXAMPLE TASK</div>
+        <div style="font-size:0.85rem; color:rgba(247,244,239,0.8); line-height:1.5;">"Take all the photos from our ski trip, rename them by date and location, and put together a simple photo book layout."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight" style="margin-top:2rem;">
+    <span class="i-label">The bottom line</span>
+    <p>Claude Code is for building things. Cowork is for <strong>getting things done</strong>. If you've ever wished you had an extra set of hands for the administrative layer of your life — scheduling, organizing, researching, formatting — Cowork is what that looks like.</p>
+  </div>
+</section>
+
+<!-- MODELS -->
+<section id="models">
+  <div class="eyebrow">Under the Hood</div>
+  <h2>The three<br><em>Claude models</em></h2>
+  <div class="rule"></div>
+  <p>Whether you use Claude in the browser, the desktop app, or the terminal, you're talking to one of three underlying models. Think of them as different settings on the same engine.</p>
+
+  <div class="model-cards">
+    <div class="model-card">
+      <span class="m-badge">Most Powerful</span>
+      <h3>Opus 4.6</h3>
+      <p>The deepest thinker. Best for complex reasoning, nuanced writing, and hard problems where quality matters more than speed.</p>
+      <div class="m-uses">
+        <span class="m-use">Complex analysis</span>
+        <span class="m-use">Research</span>
+        <span class="m-use">Long documents</span>
+      </div>
+    </div>
+    <div class="model-card featured">
+      <span class="m-badge">Best Balance · What you'll use most</span>
+      <h3>Sonnet 4.6</h3>
+      <p>The everyday workhorse. Fast, smart, and capable — handles the vast majority of tasks beautifully, including today's workshop.</p>
+      <div class="m-uses">
+        <span class="m-use">Coding</span>
+        <span class="m-use">Writing</span>
+        <span class="m-use">Daily tasks</span>
+        <span class="m-use">Agents</span>
+      </div>
+    </div>
+    <div class="model-card">
+      <span class="m-badge">Fastest</span>
+      <h3>Haiku 4.5</h3>
+      <p>Lightning-quick for simple tasks. Great when you need a fast answer, a short summary, or a quick rewrite on your phone.</p>
+      <div class="m-uses">
+        <span class="m-use">Quick answers</span>
+        <span class="m-use">Summaries</span>
+        <span class="m-use">Speed</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="muted" style="margin-top:2rem;">These three models power every way you access Claude — the website, the mobile app, the desktop app, and the terminal. The interface changes; the intelligence underneath doesn't.</p>
+</section>
+
+<!-- MYTHOS -->
+<section id="mythos" class="dark">
+  <div style="max-width:1100px; margin:0 auto; width:100%;">
+    <div style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(30,86,200,0.2); border:1px solid var(--accent); padding:0.3rem 0.75rem; border-radius:2rem; margin-bottom:1.5rem;">
+      <span style="display:block; width:6px; height:6px; border-radius:50%; background:var(--accent);"></span>
+      <span style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent);">Announced today — April 7, 2026</span>
+    </div>
+
+    <h2 style="color:var(--paper);">Meet <em style="color:var(--accent);">Claude Mythos</em></h2>
+    <div class="rule"></div>
+    <p class="lead" style="color:rgba(247,244,239,0.8); max-width:700px;">Anthropic just unveiled its most powerful model yet — one so capable they're not releasing it to the public. This is what the frontier of AI looks like right now.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:3rem; align-items:start;">
+      <div>
+        <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:1.5rem;">WHAT IT IS</p>
+        <div style="display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="border-left:2px solid var(--accent); padding:0.75rem 1.25rem;">
+            <div style="font-weight:500; color:var(--paper); font-size:0.95rem; margin-bottom:0.3rem;">Above Opus — a new tier entirely</div>
+            <p style="font-size:0.82rem; color:rgba(247,244,239,0.6); max-width:none; line-height:1.55;">Anthropic has always had Haiku → Sonnet → Opus. Mythos is a new category above all of them — dramatically more powerful than anything they've released before.</p>
+          </div>
+          <div style="border-left:2px solid rgba(247,244,239,0.15); padding:0.75rem 1.25rem;">
+            <div style="font-weight:500; color:var(--paper); font-size:0.95rem; margin-bottom:0.3rem;">Found thousands of security holes — in hours</div>
+            <p style="font-size:0.82rem; color:rgba(247,244,239,0.6); max-width:none; line-height:1.55;">Mythos scanned major software systems and discovered tens of thousands of critical bugs — some of them decades old and never caught by human researchers. It then wrote the fixes.</p>
+          </div>
+          <div style="border-left:2px solid rgba(247,244,239,0.15); padding:0.75rem 1.25rem;">
+            <div style="font-weight:500; color:var(--paper); font-size:0.95rem; margin-bottom:0.3rem;">Too powerful to release publicly — for now</div>
+            <p style="font-size:0.82rem; color:rgba(247,244,239,0.6); max-width:none; line-height:1.55;">Anthropic is so concerned about what Mythos could do in the wrong hands that they're keeping it invite-only. Only ~40 companies in the world have access.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:1.5rem;">PROJECT GLASSWING — WHO HAS ACCESS</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+          <div style="background:rgba(247,244,239,0.06); border:1px solid rgba(247,244,239,0.08); padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;">
+            <img src="https://logo.clearbit.com/apple.com" style="width:20px; height:20px; object-fit:contain; filter:brightness(0) invert(1); border-radius:3px;" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem; color:rgba(247,244,239,0.8);">Apple</span>
+          </div>
+          <div style="background:rgba(247,244,239,0.06); border:1px solid rgba(247,244,239,0.08); padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;">
+            <img src="https://logo.clearbit.com/amazon.com" style="width:20px; height:20px; object-fit:contain; filter:brightness(0) invert(1);" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem; color:rgba(247,244,239,0.8);">Amazon</span>
+          </div>
+          <div style="background:rgba(247,244,239,0.06); border:1px solid rgba(247,244,239,0.08); padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;">
+            <img src="https://logo.clearbit.com/microsoft.com" style="width:20px; height:20px; object-fit:contain;" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem; color:rgba(247,244,239,0.8);">Microsoft</span>
+          </div>
+          <div style="background:rgba(247,244,239,0.06); border:1px solid rgba(247,244,239,0.08); padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;">
+            <img src="https://logo.clearbit.com/google.com" style="width:20px; height:20px; object-fit:contain;" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem; color:rgba(247,244,239,0.8);">Google</span>
+          </div>
+          <div style="background:rgba(247,244,239,0.06); border:1px solid rgba(247,244,239,0.08); padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;">
+            <img src="https://logo.clearbit.com/jpmorganchase.com" style="width:20px; height:20px; object-fit:contain; filter:brightness(0) invert(1);" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem; color:rgba(247,244,239,0.8);">JPMorganChase</span>
+          </div>
+          <div style="background:rgba(247,244,239,0.06); border:1px solid rgba(247,244,239,0.08); padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;">
+            <img src="https://logo.clearbit.com/crowdstrike.com" style="width:20px; height:20px; object-fit:contain; filter:brightness(0) invert(1);" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem; color:rgba(247,244,239,0.8);">CrowdStrike</span>
+          </div>
+          <div style="background:rgba(247,244,239,0.06); border:1px solid rgba(247,244,239,0.08); padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;">
+            <img src="https://logo.clearbit.com/cisco.com" style="width:20px; height:20px; object-fit:contain; filter:brightness(0) invert(1);" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem; color:rgba(247,244,239,0.8);">Cisco</span>
+          </div>
+          <div style="background:rgba(247,244,239,0.06); border:1px solid rgba(247,244,239,0.08); padding:0.75rem 1rem; display:flex; align-items:center; gap:0.6rem;">
+            <img src="https://logo.clearbit.com/nvidia.com" style="width:20px; height:20px; object-fit:contain; filter:brightness(0) invert(1);" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem; color:rgba(247,244,239,0.8);">Nvidia</span>
+          </div>
+        </div>
+        <p style="font-size:0.75rem; color:rgba(247,244,239,0.35); margin-top:0.75rem; font-family:var(--mono); max-width:none;">+ ~32 more organizations. No public access. No timeline for general release.</p>
+
+        <div style="margin-top:1.5rem; background:rgba(30,86,200,0.12); border:1px solid rgba(30,86,200,0.25); padding:1.25rem;">
+          <p class="muted" style="color:var(--accent); margin-bottom:0.4rem; display:block;">$100M COMMITTED</p>
+          <p style="font-size:0.82rem; color:rgba(247,244,239,0.7); max-width:none; line-height:1.55;">Anthropic is providing up to $100 million in usage credits to companies testing Mythos — plus $4 million directly to open-source security foundations.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem; border-top:1px solid rgba(247,244,239,0.08); padding-top:2rem; display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+      <div>
+        <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:0.75rem; display:block;">WHY THIS MATTERS TO YOU</p>
+        <p style="font-size:0.9rem; color:rgba(247,244,239,0.75); line-height:1.7; max-width:none;">The apps on your phone. Your banking software. The browser you're using right now. Mythos is scanning all of it for holes that hackers could exploit — and patching them before anyone gets hurt. This is AI working <em style="color:var(--paper);">for</em> you in ways you'll never directly see.</p>
+      </div>
+      <div>
+        <p class="muted" style="color:rgba(247,244,239,0.4); margin-bottom:0.75rem; display:block;">THE BIGGER SIGNAL</p>
+        <p style="font-size:0.9rem; color:rgba(247,244,239,0.75); line-height:1.7; max-width:none;">We are now in a world where AI models are so capable that the companies building them are pausing before releasing them. That is a new thing. The question of <em style="color:var(--paper);">what AI should be allowed to do</em> is no longer hypothetical.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+      <a href="https://x.com/joshkale/status/2041589742303649802" target="_blank" style="display:inline-flex; align-items:center; gap:0.75rem; font-family:var(--mono); font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--paper); background:rgba(247,244,239,0.08); border:1px solid rgba(247,244,239,0.2); padding:0.75rem 1.25rem; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.background='rgba(247,244,239,0.15)'" onmouseout="this.style.background='rgba(247,244,239,0.08)'">
+        <span style="font-size:1rem;">𝕏</span> Read the announcement thread ↗
+      </a>
+      <a href="https://www.anthropic.com/glasswing" target="_blank" style="display:inline-flex; align-items:center; gap:0.75rem; font-family:var(--mono); font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--paper); background:rgba(30,86,200,0.15); border:1px solid rgba(30,86,200,0.4); padding:0.75rem 1.25rem; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.background='rgba(30,86,200,0.3)'" onmouseout="this.style.background='rgba(30,86,200,0.15)'">
+        ✦ Project Glasswing ↗
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ITERATIVE DESIGN -->
+<section class="cream-bg">
+  <div class="eyebrow">A Note on the Design Process</div>
+  <h2>Good things get built in<br><em>loops, not lines.</em></h2>
+  <div class="rule"></div>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">✏️ Design</span>
+      <h3>Describe</h3>
+      <p>Describe what you want in plain English. Be specific about what matters to you.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">⚡ Prototype</span>
+      <h3>Build</h3>
+      <p>AI builds a working version in seconds. Something real to react to.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">👀 Test</span>
+      <h3>Use it</h3>
+      <p>Use it. Break it. Notice what's missing or wrong or not quite right.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">🔁 Iterate</span>
+      <h3>Refine</h3>
+      <p>Tell AI what to fix. Repeat until it's right. The back-and-forth IS the skill.</p>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>"The app you're about to build won't come from one prompt. It will be shaped through conversation. Each round of feedback makes it sharper."</p>
+  </div>
+</section>
+
+<!-- BUILD WORKSHOP -->
+<section id="build" class="dark">
+  <div style="max-width:1100px; margin:0 auto; width:100%;">
+    <div class="eyebrow">Workshop</div>
+    <h2 style="color:var(--paper);">Let's build something <em style="color:var(--accent);">real.</em></h2>
+    <div class="rule"></div>
+    <p class="lead" style="color:rgba(247,244,239,0.8);">In the next 30 minutes, we're going to use Claude — Chat, Cowork, and Code — to build a real, working app together. No coding experience needed. You just need to know how to talk.</p>
+
+    <div class="stats-row" style="margin-top:2.5rem;">
+      <div class="stat">
+        <span class="s-num" style="color:var(--paper);">30</span>
+        <span class="s-label">minutes to build</span>
+      </div>
+      <div class="stat">
+        <span class="s-num" style="color:var(--paper);">0</span>
+        <span class="s-label">lines of code you'll write</span>
+      </div>
+      <div class="stat">
+        <span class="s-num" style="color:var(--paper);">1</span>
+        <span class="s-label">real app you'll walk away with</span>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(247,244,239,0.08); margin-top:3rem;">
+      <div style="background:rgba(15,14,12,0.4); padding:1.5rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:var(--accent); margin-bottom:0.5rem; text-transform:uppercase;">Step 1</div>
+        <div style="font-weight:500; color:var(--paper); font-size:0.95rem; margin-bottom:0.4rem;">Claude Chat</div>
+        <p style="font-size:0.82rem; color:rgba(247,244,239,0.6); max-width:none; line-height:1.55;">Tell Claude what you want to build. Describe the app in plain English. Ask it questions. Refine the idea together.</p>
+      </div>
+      <div style="background:rgba(15,14,12,0.4); padding:1.5rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:var(--accent); margin-bottom:0.5rem; text-transform:uppercase;">Step 2</div>
+        <div style="font-weight:500; color:var(--paper); font-size:0.95rem; margin-bottom:0.4rem;">Claude Code</div>
+        <p style="font-size:0.82rem; color:rgba(247,244,239,0.6); max-width:none; line-height:1.55;">Hand it the calendar PDF. Claude reads it, structures the data, and builds the web app. You review and iterate.</p>
+      </div>
+      <div style="background:rgba(15,14,12,0.4); padding:1.5rem;">
+        <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.08em; color:var(--accent); margin-bottom:0.5rem; text-transform:uppercase;">Step 3</div>
+        <div style="font-weight:500; color:var(--paper); font-size:0.95rem; margin-bottom:0.4rem;">Claude Cowork</div>
+        <p style="font-size:0.82rem; color:rgba(247,244,239,0.6); max-width:none; line-height:1.55;">Set it up to run on a schedule — a weekly Sunday digest of what's coming up, delivered to your phone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE APP -->
+<section class="accent-bg">
+  <div style="max-width:1100px; margin:0 auto; width:100%;">
+    <div class="eyebrow" style="color:rgba(247,244,239,0.6);">The App</div>
+    <h2 style="color:var(--paper);">The Buckley School<br><em style="font-style:italic; color:rgba(247,244,239,0.7);">Smart Calendar</em></h2>
+    <div class="rule" style="background:rgba(247,244,239,0.4);"></div>
+    <p class="lead" style="color:rgba(247,244,239,0.85);">The school calendar PDF has everything — but it's a wall of text. This app turns it into a filterable, color-coded calendar so you can see exactly what matters to <em>your</em> child's grade. No more scrolling through dates that don't apply.</p>
+
+    <div class="cards" style="margin-top:2.5rem;">
+      <div class="card" style="background:rgba(247,244,239,0.12); border-color:rgba(247,244,239,0.15);">
+        <span class="card-icon">🎓</span>
+        <h3 style="color:var(--paper);">Filter by Grade</h3>
+        <p style="color:rgba(247,244,239,0.7); max-width:none;">See only events relevant to your child's class. One toggle, one view.</p>
+      </div>
+      <div class="card" style="background:rgba(247,244,239,0.12); border-color:rgba(247,244,239,0.15);">
+        <span class="card-icon">🔴</span>
+        <h3 style="color:var(--paper);">Color-coded by type</h3>
+        <p style="color:rgba(247,244,239,0.7); max-width:none;">Red = days off · Blue = school events · Green = deadlines</p>
+      </div>
+      <div class="card" style="background:rgba(247,244,239,0.12); border-color:rgba(247,244,239,0.15);">
+        <span class="card-icon">📅</span>
+        <h3 style="color:var(--paper);">Month view or list view</h3>
+        <p style="color:rgba(247,244,239,0.7); max-width:none;">Toggle between a calendar grid and a clean scrollable list.</p>
+      </div>
+      <div class="card" style="background:rgba(247,244,239,0.12); border-color:rgba(247,244,239,0.15);">
+        <span class="card-icon">📲</span>
+        <h3 style="color:var(--paper);">Works on your phone</h3>
+        <p style="color:rgba(247,244,239,0.7); max-width:none;">Add to home screen as a PWA. No App Store. No download. Free.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;">
+      <a href="https://docs.google.com/document/d/1bqAUcxlvHBmQFO2Xb6DldsvJwh0VHhKieUvK2ilNHfY/edit?tab=t.0" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; font-family:var(--mono); font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(247,244,239,0.6); border:1px solid rgba(247,244,239,0.2); padding:0.5rem 1rem; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(247,244,239,0.6)';this.style.color='var(--paper)'" onmouseout="this.style.borderColor='rgba(247,244,239,0.2)';this.style.color='rgba(247,244,239,0.6)'">↗ Source: Buckley School Calendar 2025–2026</a>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSHOP STEPS -->
+<section class="dark">
+  <div style="max-width:1100px; margin:0 auto; width:100%;">
+    <div class="eyebrow">Workshop Steps</div>
+    <h2 style="color:var(--paper);">What you'll say to<br><em style="color:var(--accent);">Claude Chat</em></h2>
+    <div class="rule"></div>
+
+    <div class="workshop-steps">
+      <div class="w-step">
+        <span class="w-num">01</span>
+        <span class="w-time">3 min</span>
+        <h4>Feed it the PDF</h4>
+        <div class="w-prompt">"Here is the Buckley School calendar PDF. Parse all the events, dates, grades, and types into structured data."</div>
+      </div>
+      <div class="w-step">
+        <span class="w-num">02</span>
+        <span class="w-time">5 min</span>
+        <h4>Build the calendar</h4>
+        <div class="w-prompt">"Create a web app that displays these events as a calendar. Clean design, easy to read on a phone."</div>
+      </div>
+      <div class="w-step">
+        <span class="w-num">03</span>
+        <span class="w-time">8 min</span>
+        <h4>Add filters</h4>
+        <div class="w-prompt">"Add a filter by grade so I only see events for my child's class. Add a second filter by event type — days off, school events, deadlines."</div>
+      </div>
+      <div class="w-step">
+        <span class="w-num">04</span>
+        <span class="w-time">5 min</span>
+        <h4>Make it beautiful</h4>
+        <div class="w-prompt">"Color code: red for days off, blue for school events, green for deadlines. Make it polished enough to share with other Buckley parents."</div>
+      </div>
+      <div class="w-step">
+        <span class="w-num">05</span>
+        <span class="w-time">5 min</span>
+        <h4>Add an agent layer</h4>
+        <div class="w-prompt">"Add a weekly digest feature: every Sunday, summarize next week's events by grade and format it as a message I can send to our family group chat."</div>
+      </div>
+    </div>
+
+    <p style="color:rgba(247,244,239,0.5); font-size:0.85rem; margin-top:2rem; font-style:italic;">This is a real app you'll actually use. When you see something built from <em>your own school's data</em>, it stops feeling like a demo and starts feeling like a superpower.</p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing-grid">
+  <div class="closing-left">
+    <div class="eyebrow">You already have everything it takes.</div>
+    <h2 style="color:var(--paper); font-size:clamp(2rem,4vw,3.5rem);">Curiosity, taste, and knowing what you need —<br><em style="color:var(--accent);">that's the real skill.</em></h2>
+    <div class="rule" style="margin-top:2rem;"></div>
+    <p style="margin-top:1.5rem;">AI just gives you a way to act on it, faster and bigger than ever before. The version of you that knows how to use these tools is dramatically more capable than the version that doesn't.</p>
+    <p style="margin-top:1.5rem; font-family:var(--mono); font-size:0.7rem; color:rgba(247,244,239,0.4);">reginaflores.ai · Workshop 01 · 2026</p>
+  </div>
+  <div class="closing-right">
+    <div class="eyebrow">What's Next</div>
+    <h2>Workshop <em>02</em></h2>
+    <div class="rule" style="background:rgba(247,244,239,0.4);"></div>
+    <p style="margin-top:1rem;">Building deeper. We'll go from a web app to a full agent pipeline — one that reads your inbox, manages your schedule, and surfaces what matters, automatically.</p>
+    <div class="cards" style="margin-top:2rem; grid-template-columns:1fr;">
+      <div class="card" style="background:rgba(247,244,239,0.12); border-color:rgba(247,244,239,0.2);">
+        <h3 style="color:var(--paper); font-size:0.95rem;">Claude Code → Claude Cowork</h3>
+        <p style="color:rgba(247,244,239,0.7); font-size:0.85rem; max-width:none;">From building apps to building pipelines that run themselves.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Update slide counter on scroll
+  const sections = document.querySelectorAll('section, .closing-grid');
+  const counter = document.querySelector('.counter');
+  const total = sections.length;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = Array.from(sections).indexOf(entry.target) + 1;
+        counter.textContent = `${String(idx).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Nav highlight
+  const navLinks = document.querySelectorAll('nav a');
+  const sectionEls = document.querySelectorAll('section[id]');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.style.color = '');
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (active) active.style.color = 'var(--ink)';
+      }
+    });
+  }, { threshold: 0.5 });
+
+  sectionEls.forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>
